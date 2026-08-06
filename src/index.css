@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Font & Color System ────────────────────────────────────── */
+:root {
+  /* Brand Palette (Exact Specifications) */
+  --color-deep-navy: #050d1a;
+  --color-royal-blue: #0a1628;
+  --color-midnight: #081220;
+  --color-studio-white: #ffffff;
+  --color-studio-obsidian: #040914;
+
+  --color-champagne: #c9a96e;           /* Primary Accent & Brand Text */
+  --color-champagne-light: #d4b87a;
+  --color-champagne-glow: rgba(201, 169, 110, 0.15);
+  --color-studio-green: #00e676;
+
+  --color-ivory: #f5f0e8;               /* Headline Text */
+  --color-text-primary: #f5f0e8;
+  --color-text-secondary: rgba(245, 240, 232, 0.65);
+  --color-text-muted: rgba(245, 240, 232, 0.35);
+  --color-dark-charcoal: #09121f;
+
+  --color-border: rgba(201, 169, 110, 0.12);
+
+  /* Typography Stack */
+  --font-display: 'Canela', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', 'Playfair Display', sans-serif;
+
+  /* Z-Index Hierarchy */
+  --z-bg: 0;
+  --z-globe: 5;
+  --z-content: 10;
+  --z-nav: 100;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-deep-navy);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+}
+
+.btn-green-studio,
+.btn-champagne-studio,
+.btn-champagne,
+.bg-champagne-gold {
+  background-color: #c9a96e !important;
+  color: #050d1a !important;
+  font-weight: 600;
+  box-shadow: 0 0 25px rgba(201, 169, 110, 0.35);
+  transition: all 0.3s ease;
+}
+
+.btn-green-studio:hover,
+.btn-champagne-studio:hover,
+.btn-champagne:hover,
+.bg-champagne-gold:hover {
+  background-color: #d4b87a !important;
+  box-shadow: 0 0 35px rgba(201, 169, 110, 0.5) !important;
+  transform: translateY(-2px);
+}
+
+/* ── Pill Button ("Get a Free Quote" - Translucent Glass & Gold Text) ─── */
+.btn-pill-quote {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 22, 40, 0.5) !important;
+  color: #d4b87a !important;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.8rem 2.25rem;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(201, 169, 110, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(201, 169, 110, 0.1), 0 0 20px rgba(201, 169, 110, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.btn-pill-quote:hover {
+  background: rgba(201, 169, 110, 0.18) !important;
+  color: #ffffff !important;
+  border-color: #d4b87a !important;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(201, 169, 110, 0.25), 0 0 35px rgba(201, 169, 110, 0.5);
+}
+
+/* ── Hero Orbit & Node Animations ───────────────────────────── */
+.globe-orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 169, 110, 0.12);
+  animation: orbitSpin 24s linear infinite;
+  pointer-events: none;
+}
+
+.globe-node {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--color-champagne);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(201, 169, 110, 0.5);
+  animation: nodePulse 3s ease-in-out infinite;
+}
+
+@keyframes orbitSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.6); }
+}
+
+.glass-panel {
+  background: rgba(10, 22, 40, 0.65);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border-top: 1px solid rgba(201, 169, 110, 0.3);
+  border-left: 1px solid rgba(201, 169, 110, 0.12);
+  box-shadow: 0 40px 100px -20px rgba(4, 9, 20, 0.6);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(201, 169, 110, 0.45);
+  box-shadow: 0 40px 120px -20px rgba(201, 169, 110, 0.18);
+}
+
+.gold-text-gradient {
+  background: linear-gradient(135deg, #d4b87a 0%, #c9a96e 50%, #d4b87a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+.tilt-card {
+  transition: transform 0.15s ease;
+  transform-style: preserve-3d;
+}
+
+.tilt-card-content {
+  transform: translateZ(30px);
+}
+
+/* Visible keyboard focus, always */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #c9a96e;
+  outline-offset: 3px;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #c9a96e !important;
+  box-shadow: 0 1px 0 0 #c9a96e !important;
+  outline: none;
+}
+
+::selection {
+  background: #c9a96e;
+  color: #050d1a;
+}
+
+/* ── Scroll Reveal ────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.15s; }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.25s; }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.35s; }
+.reveal-stagger.visible > * { opacity: 1; transform: translateY(0); }
+
+/* ── Slow spin for fallback globe ─────────────────────────── */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
+}

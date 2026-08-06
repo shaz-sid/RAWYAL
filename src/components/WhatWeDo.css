@@ -1,0 +1,126 @@
+/* Base styles for the What We Do timeline */
+#what-we-do {
+  position: relative;
+  background: rgba(5, 13, 26, 0.2);
+}
+
+.timeline-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Central Axis Spine Line */
+.timeline__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(201, 169, 110, 0.12);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Mobile: left aligned spine */
+@media (max-width: 767px) {
+  .timeline__line {
+    left: 20px;
+  }
+}
+
+/* Desktop: centered spine */
+@media (min-width: 768px) {
+  .timeline__line {
+    left: 50%;
+  }
+}
+
+/* Progress fill line */
+.timeline__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #d4b87a, #c9a96e);
+  transform-origin: top center;
+  transform: scaleY(0);
+  box-shadow: 0 0 15px rgba(201, 169, 110, 0.5);
+  z-index: 2;
+  will-change: transform;
+}
+
+/* Timeline Item (Milestone Row) */
+.timeline__item {
+  position: relative;
+  width: 100%;
+  z-index: 3;
+}
+
+/* Marker Circle on the spine (No numbers - clean dot style) */
+.timeline__marker {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(201, 169, 110, 0.4);
+  background: #050d1a;
+  z-index: 10;
+  transition: border-color 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Marker Active State (when reached by the gold progress line) */
+.timeline__item.visible .timeline__marker {
+  border-color: #c9a96e;
+  background-color: #c9a96e;
+  box-shadow: 0 0 14px rgba(201, 169, 110, 0.65);
+}
+
+/* "The Future" marker beacon (the 6th node) */
+.timeline__item:last-child .timeline__marker {
+  animation: markerGlowPulse 2.5s infinite ease-in-out;
+}
+
+.timeline__item:last-child.visible .timeline__marker {
+  animation: markerGlowPulseActive 2.5s infinite ease-in-out;
+}
+
+@keyframes markerGlowPulse {
+  0% {
+    box-shadow: 0 0 8px rgba(201, 169, 110, 0.2);
+    border-color: rgba(201, 169, 110, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(201, 169, 110, 0.5);
+    border-color: rgba(201, 169, 110, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(201, 169, 110, 0.2);
+    border-color: rgba(201, 169, 110, 0.4);
+  }
+}
+
+@keyframes markerGlowPulseActive {
+  0% {
+    box-shadow: 0 0 12px rgba(201, 169, 110, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(201, 169, 110, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 12px rgba(201, 169, 110, 0.4);
+  }
+}
+
+/* Inactive Text Content initial state (Frameless) */
+.timeline__card-wrapper {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform, opacity;
+}
+
+/* Visible (Activated) Card state */
+.timeline__item.visible .timeline__card-wrapper {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}

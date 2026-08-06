@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://therawyal.com/sitemap.xml
+
+# Disallow server API
+Disallow: /api/
