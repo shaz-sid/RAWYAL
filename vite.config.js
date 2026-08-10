@@ -11,5 +11,25 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('three') || id.includes('@react-three')) {
+              return 'vendor-three';
+            }
+            if (id.includes('gsap') || id.includes('@gsap') || id.includes('framer-motion') || id.includes('lenis')) {
+              return 'vendor-animation';
+            }
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react';
+            }
+          }
+        },
+      },
+    },
+  },
 });
+
 

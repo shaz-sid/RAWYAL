@@ -4,8 +4,8 @@
 
 ```
 ┌──────────────────┐     ┌──────────────────┐
-│  Vite React SPA  │────▶│  Express API     │────▶ Gmail SMTP
-│  (Static Build)  │     │  (Port 5001)     │
+│  Vite React SPA  │────▶│  Express API     │────▶ Hostinger SMTP
+│  (Static Build)  │     │  (Port 5001)     │      (smtp.hostinger.com)
 │  Port 5173 (dev) │     │  /api/contact/*  │
 └──────────────────┘     └──────────────────┘
 ```
@@ -21,8 +21,10 @@
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `EMAIL_USER` | ✅ | — | Gmail address used as SMTP sender |
-| `EMAIL_PASSWORD` | ✅ | — | Gmail App Password (16 chars, [generate here](https://myaccount.google.com/apppasswords)) |
+| `SMTP_HOST` | ❌ | `smtp.hostinger.com` | Hostinger SMTP host address |
+| `SMTP_PORT` | ❌ | `465` | SSL port for Hostinger SMTP |
+| `EMAIL_USER` | ✅ | `bizdev@therawyal.com` | Business email account address |
+| `EMAIL_PASSWORD` | ✅ | — | Hostinger email password |
 | `EMAIL_FROM` | ❌ | `EMAIL_USER` | Display "from" address on outbound emails |
 | `BUSINESS_EMAIL` | ❌ | `EMAIL_USER` | Where lead notifications are delivered |
 | `PORT` | ❌ | `5000` | Express server port |

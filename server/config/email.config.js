@@ -3,10 +3,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const emailUser = process.env.EMAIL_USER || '';
-const emailPass = process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.replace(/[\s-]/g, '') : '';
-const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+const emailUser = process.env.EMAIL_USER || 'bizdev@therawyal.com';
+const rawPass = process.env.EMAIL_PASSWORD || '';
+const smtpHost = process.env.SMTP_HOST || 'smtp.hostinger.com';
 const smtpPort = parseInt(process.env.SMTP_PORT || '465', 10);
+
+// Use exact password or sanitized version if Gmail
+const emailPass = smtpHost.includes('gmail')
+  ? rawPass.replace(/[\s-]/g, '')
+  : rawPass.trim();
 
 // Create transporter for email sending
 const transporter = nodemailer.createTransport(
@@ -24,22 +29,21 @@ const transporter = nodemailer.createTransport(
         secure: smtpPort === 465,
         auth: {
           user: emailUser,
-          pass: process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.trim() : '',
+          pass: emailPass,
         },
       }
 );
 
 // Verify connection
-transporter.verify((error, success) => {
+transporter.verify((error) => {
   if (error) {
-    console.error(`Email configuration error (${emailUser}):`, error.message);
-    if (error.message.includes('535') || error.message.includes('BadCredentials')) {
-      console.error('💡 Hint: Please generate a new 16-character App Password at https://myaccount.google.com/apppasswords');
+    console.error(`Email configuration error (${emailUser} @ ${smtpHost}:${smtpPort}):`, error.message);
+    if (error.message.includes('535') || error.message.includes('BadCredentials') || error.message.includes('Invalid login')) {
+      console.error('💡 Hint: Please verify your Hostinger email address and password in .env');
     }
   } else {
-    console.log(`✓ Email service ready for ${process.env.BUSINESS_EMAIL || emailUser}`);
+    console.log(`✓ Email service ready via ${smtpHost} for ${process.env.BUSINESS_EMAIL || emailUser}`);
   }
 });
 
 export default transporter;
-
