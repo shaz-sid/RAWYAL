@@ -1,86 +1,55 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-/**
- * Single accordion row. Height + opacity + a rotating chevron animate
- * with a spring easing so the drop-down never feels linear or abrupt.
- */
-function AccordionItem({ index, question, answer, isOpen, onToggle }) {
-  const headingId = `accordion-heading-${index}`;
-  const panelId = `accordion-panel-${index}`;
+export default function Accordion({ items = [] }) {
+  const [openIndex, setOpenIndex] = useState(null);
 
-  return (
-    <div className="border-b border-glass-stroke">
-      <button
-        id={headingId}
-        className="w-full flex items-center justify-between gap-6 py-6 text-left group"
-        onClick={() => onToggle(index)}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-      >
-        <span className="font-display text-headline-md text-ivory-white group-hover:text-champagne-gold transition-colors duration-300">
-          {question}
-        </span>
-        <motion.span
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-          className="material-symbols-outlined shrink-0 text-champagne-gold text-[28px]"
-          aria-hidden="true"
-        >
-          add
-        </motion.span>
-      </button>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            id={panelId}
-            key="content"
-            role="region"
-            aria-labelledby={headingId}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{
-              height: { type: 'spring', stiffness: 280, damping: 32 },
-              opacity: { duration: 0.25 },
-            }}
-            className="overflow-hidden"
-          >
-            <p className="pb-6 pr-10 font-body text-body-lg text-ivory-white/60">{answer}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-export default function Accordion({ items, allowMultiple = false }) {
-  const [openIndexes, setOpenIndexes] = useState(() => new Set([0]));
-
-  const handleToggle = (index) => {
-    setOpenIndexes((prev) => {
-      const next = allowMultiple ? new Set(prev) : new Set();
-      if (prev.has(index)) {
-        next.delete(index);
-      } else {
-        next.add(index);
-      }
-      return next;
-    });
+  const toggleIndex = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className="w-full">
-      {items.map((item, index) => (
-        <AccordionItem
-          key={item.question}
-          index={index}
-          question={item.question}
-          answer={item.answer}
-          isOpen={openIndexes.has(index)}
-          onToggle={handleToggle}
-        />
-      ))}
+    <div className="space-y-4 max-w-[800px] mx-auto">
+      {items.map((item, idx) => {
+        const isOpen = openIndex === idx;
+        return (
+          <div
+            key={idx}
+            className="glass-panel rounded-xl border border-glass-stroke/60 overflow-hidden transition-colors duration-300"
+          >
+            <button
+              onClick={() => toggleIndex(idx)}
+              className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-display text-xl text-ivory-white font-medium hover:text-champagne-gold transition-colors duration-300"
+              aria-expanded={isOpen}
+            >
+              <span>{item.question}</span>
+              <span
+                className={`material-symbols-outlined text-champagne-gold transition-transform duration-300 ${
+                  isOpen ? 'rotate-180' : ''
+                }`}
+              >
+                expand_more
+              </span>
+            </button>
+
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-6 pt-1 font-body text-base text-ivory-white/70 leading-relaxed border-t border-glass-stroke/30">
+                    {item.answer}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      })}
     </div>
   );
 }

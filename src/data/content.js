@@ -49,13 +49,6 @@ export const ABOUT_STORY_DATA = {
   ],
 };
 
-export const STATS_DATA = [
-  { label: 'YEARS OF TRADE EXCELLENCE', value: 10, suffix: '+ Years', prefix: '' },
-  { label: 'GLOBAL GMV SCALED', value: 50, suffix: 'M+', prefix: '$' },
-  { label: 'ON-TIME USA DELIVERY', value: 99.4, suffix: '%', prefix: '' },
-  { label: 'USA WAREHOUSES & HUBS', value: 14, suffix: ' Locations', prefix: '' },
-];
-
 export const SERVICES_DATA = [
   {
     icon: 'workspace_premium',
