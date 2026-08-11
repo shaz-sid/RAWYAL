@@ -28,7 +28,8 @@ export default function Contact() {
     setError(null);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : '';
+      const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      const apiUrl = import.meta.env.VITE_API_URL || (isLocalhost ? 'http://localhost:5001' : '');
       const response = await fetch(`${apiUrl}/api/contact/submit`, {
         method: 'POST',
         headers: {

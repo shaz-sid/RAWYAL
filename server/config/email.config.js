@@ -4,18 +4,19 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const emailUser = process.env.EMAIL_USER || '';
-const emailPass = process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.replace(/[\s-]/g, '') : '';
-const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+const isTherawyalDomain = emailUser.toLowerCase().endsWith('@therawyal.com');
+const isGmailService = process.env.EMAIL_SERVICE === 'gmail' && !isTherawyalDomain;
+const smtpHost = process.env.SMTP_HOST || (isTherawyalDomain ? 'smtp.hostinger.com' : 'smtp.gmail.com');
 const smtpPort = parseInt(process.env.SMTP_PORT || '465', 10);
 
 // Create transporter for email sending
 const transporter = nodemailer.createTransport(
-  smtpHost.includes('gmail')
+  isGmailService || smtpHost.includes('gmail')
     ? {
         service: 'gmail',
         auth: {
           user: emailUser,
-          pass: emailPass,
+          pass: process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.replace(/[\s-]/g, '') : '',
         },
       }
     : {
@@ -25,6 +26,9 @@ const transporter = nodemailer.createTransport(
         auth: {
           user: emailUser,
           pass: process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.trim() : '',
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       }
 );
